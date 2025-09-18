@@ -1,23 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Tutor AI Farmasi</title>
-    <style>
-        #canvas { border: 1px solid black; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Tutor AI Farmasi</h1>
 
-    <video id="video" width="400" height="300" autoplay></video>
-    <button id="capture">Capture</button>
-    <canvas id="canvas" width="400" height="300"></canvas>
+    <div class="container">
+        <!-- Video + Capture -->
+        <div class="card" style="position: relative;">
+            <video id="video" width="400" height="300" autoplay></video>
+            <div id="roi"></div>
+            <button id="capture">Capture</button>
+            <canvas id="canvas" width="400" height="300"></canvas>
+            <button id="predict">Predict</button>
+        </div>
 
-    <h3>Predict</h3>
-    <button id="predict">Predict</button>
+        <!-- Result -->
+        <div class="card" id="result-card">
+            <h3>Result Prediksi</h3>
+            <div>
+                <span>Cu (ppm): </span>
+                <div id="cu" class="result-value">--</div>
+            </div>
+            <div>
+                <span>Fe (ppm): </span>
+                <div id="fe" class="result-value">--</div>
+            </div>
+        </div>
+    </div>
 
-    <h3>Result:</h3>
-    <pre id="result"></pre>
+    <div class="footer">
+        © 2025 Tutor AI Farmasi - Prototype
+    </div>
 
     <script src="/static/script.js"></script>
 </body>
