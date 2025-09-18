@@ -7,7 +7,7 @@ import io
 
 app = Flask(__name__)
 
-# Load dummy ML model (contoh)
+# Load dummy ML model
 with open('model.pkl', 'rb') as f:
     model = pickle.load(f)
 
@@ -17,17 +17,15 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Ambil gambar dari frontend
+    # Ambil gambar
     file = request.files['image']
     img = Image.open(file.stream).convert('RGB')
     img = np.array(img)
 
-    # Ambil ROI dari frontend
-    roi_x = int(request.form['roi_x'])
-    roi_y = int(request.form['roi_y'])
-    roi_w = int(request.form['roi_w'])
-    roi_h = int(request.form['roi_h'])
-
+    # ROI otomatis (di tengah gambar, 50% ukuran)
+    h, w, _ = img.shape
+    roi_w, roi_h = int(w*0.5), int(h*0.5)
+    roi_x, roi_y = w//4, h//4
     roi = img[roi_y:roi_y+roi_h, roi_x:roi_x+roi_w]
 
     # Hitung RGB rata-rata
@@ -35,19 +33,18 @@ def predict():
     G_mean = np.mean(roi[:,:,1])
     B_mean = np.mean(roi[:,:,2])
 
-    # Ambil fitur tambahan dari frontend
-    t_min = float(request.form['t_min'])
-    temp_c = float(request.form['temp_c'])
-    # Untuk simplicity, categorical di-encode manual (contoh)
-    light_type = int(request.form['light_type'])
-    device_model = int(request.form['device_model'])
-    iso = int(request.form['iso'])
-    exposure = float(request.form['exposure'])
-    wb_mode = int(request.form['wb_mode'])
+    # Default metadata
+    t_min = 5
+    temp_c = 25
+    light_type = 0
+    device_model = 0
+    iso = 100
+    exposure = 0.0
+    wb_mode = 0
 
-    # Buat fitur vektor
-    features = np.array([[R_mean, G_mean, B_mean, t_min, temp_c, light_type,
-                          device_model, iso, exposure, wb_mode]])
+    # Fitur untuk model
+    features = np.array([[R_mean, G_mean, B_mean, t_min, temp_c,
+                          light_type, device_model, iso, exposure, wb_mode]])
 
     # Prediksi
     prediction = model.predict(features)[0]

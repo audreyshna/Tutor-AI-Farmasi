@@ -23,11 +23,6 @@ predictBtn.addEventListener('click', () => {
     const formData = new FormData();
     formData.append('image', blob);
 
-    // Ambil ROI & metadata
-    ['roi_x','roi_y','roi_w','roi_h','t_min','temp_c','light_type','device_model','iso','exposure','wb_mode'].forEach(id => {
-        formData.append(id, document.getElementById(id).value);
-    });
-
     fetch('/predict', { method: 'POST', body: formData })
     .then(res => res.json())
     .then(data => {
