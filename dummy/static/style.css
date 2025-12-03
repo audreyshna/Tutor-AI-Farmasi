@@ -1,0 +1,122 @@
+/* ===== General ===== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    color: #d63384;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+}
+
+/* ===== Container Layout ===== */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+/* ===== Cards ===== */
+.card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+}
+
+/* ===== Video & Canvas ===== */
+video, canvas {
+    border-radius: 15px;
+    border: 2px solid #d63384;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+/* ===== ROI Border ===== */
+#roi {
+    position: absolute;
+    border: 3px dashed #ff4081;
+    border-radius: 10px;
+    pointer-events: none;
+    animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 0.5; transform: scale(1); }
+}
+
+/* ===== Buttons ===== */
+button {
+    background: linear-gradient(135deg, #d63384, #c51170);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px 5px;
+    transition: 0.4s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+/* ===== Result Card ===== */
+#result {
+    background: #fce4ec;
+    padding: 20px;
+    border-radius: 15px;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    transition: all 0.5s ease;
+}
+
+.result-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 12px;
+    color: white;
+    display: inline-block;
+    min-width: 100px;
+    transition: all 0.5s;
+}
+
+/* ===== Footer ===== */
+.footer {
+    width: 100%;
+    text-align: center;
+    margin: 40px 0 20px;
+    color: #888;
+    font-size: 14px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
