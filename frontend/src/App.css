@@ -1,0 +1,205 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f4f6fb;
+}
+
+.app-bg {
+  background: linear-gradient(180deg, #f6f7fc 0%, #e9ecff 100%);
+}
+
+/* Header gradient */
+.app-header {
+  /* background: linear-gradient(90deg, #2b2e83 0%, #4a4ddc 100%); */
+  color: #4a4ddc;
+  /* border-radius: 0 0 25px 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); */
+}
+
+.tab-container {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  margin-top: -20px;
+  border-radius: 50px;
+  width: fit-content;
+  padding: 6px 12px;
+  transition: all 0.3s ease;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(200, 200, 255, 0.2);
+}
+
+/* Chat bubble */
+.chat-bubble {
+  border-radius: 20px;
+  padding: 10px 15px;
+  max-width: 75%;
+  font-size: 15px;
+}
+
+.fe-card {
+  border-radius: 18px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.fe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid #ff3d3d;
+}
+
+.fe-icon {
+  width: 65px;
+  height: 65px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.cu-card {
+  border-radius: 18px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.cu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid #5e72e4;
+}
+
+.cu-icon {
+  width: 65px;
+  height: 65px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.guide-card {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 18px;
+  transition: all 0.3s ease;
+  /* background: linear-gradient(135deg, #eef4ff, #e0e7ff); */
+  border: 1px solid #d6e0ff;
+  text-align: left; /* Rata kiri */
+}
+
+.red-gradient {
+  background: linear-gradient(135deg, #ff6a00, #ff3d3d);
+}
+
+.blue-gradient {
+  background: linear-gradient(135deg, #3e8ef7, #5e72e4);
+}
+
+.btn-primary {
+  background-color: #4a4ddc !important;
+  border: none;
+  transition: 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #393dc5 !important;
+}
+
+footer {
+  color: #666;
+}
+
+/* --- Tabs --- */
+.tab-wrapper {
+  border: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.tab-btn {
+  font-size: 1rem;
+  color: #4a4ddc;
+  background: transparent;
+  border: none;
+  transition: all 0.25s ease;
+}
+
+.tab-btn i {
+  font-size: 1.2rem;
+}
+
+.tab-btn:hover {
+  background-color: rgba(74, 77, 220, 0.05);
+}
+
+.active-tab {
+  background: linear-gradient(135deg, #2b2e83, #4a4ddc);
+  color: white !important;
+  box-shadow: 0 3px 10px rgba(74, 77, 220, 0.3);
+  transform: translateY(-1px);
+}
+
+.inactive-tab {
+  color: #4a4ddc !important;
+}
+
+/* --- Font size tweaks --- */
+body {
+  font-size: 16px; /* default */
+  line-height: 1.7;
+}
+
+h5, h6 {
+  font-weight: 600;
+}
+
+.card {
+  font-size: 15px;
+}
+
+.btn {
+  font-size: 15px;
+}
+
+/* --- General layout enhancement --- */
+.card {
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  border: none;
+}
+
+footer {
+  font-size: 14px;
+}
+
+/* --- Chatbot Enhancement --- */
+.inner-chat-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+}
+
+.chat-room::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-room::-webkit-scrollbar-thumb {
+  background: rgba(74, 77, 220, 0.3);
+  border-radius: 6px;
+}
+.chat-room::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 77, 220, 0.6);
+}
