@@ -30,43 +30,57 @@ router.get("/history/:user_id", async (req, res) => {
 // 2. Kirim pertanyaan ke FastAPI
 // ===============================
 router.post("/ask", async (req, res) => {
-  const { question, user_id, session_id} = req.body;
-
-  if (!question) return res.status(400).json({ error: "Pertanyaan kosong" });
-  if (!user_id) return res.status(400).json({ error: "user_id wajib ada" });
-  if (!session_id) return res.status(400).json({ error: "session_id wajib ada" });
+  const { question, user_id, session_id } = req.body;
 
   try {
-    // === Kirim pertanyaan ke FastAPI ===
+    // 1️⃣ Ambil history dari DB
+    const [rows] = await db.query(
+      `SELECT role, message
+       FROM chat_history
+       WHERE session_id = ?
+         AND role IN ('user', 'assistant')
+       ORDER BY timestamp ASC`,
+      [session_id]
+    );
+
+    const history = rows.map(r => ({
+      role: r.role,
+      content: r.message
+    }));
+
+    const newHistory = [...history, { role: 'user', content: question }];
+
+    // 2️⃣ Kirim ke FastAPI (DENGAN HISTORY)
     const llm = await axios.post("http://localhost:5001/api/ask", {
       question,
       user_id,
       session_id,
+      history: newHistory
     });
 
     const answer = llm.data.answer;
 
-    // === Simpan pesan ke database ===
-    const [userResult] = await db.query(
-      `INSERT INTO chat_history (user_id, session_id, role, message, timestamp)
-      VALUES (?, ?, ?, ?, NOW())`,
-      [user_id, session_id, 'user', question]
+    // 3️⃣ Simpan ke DB
+    await db.query(
+      `INSERT INTO chat_history (user_id, session_id, role, message)
+       VALUES (?, ?, 'user', ?)`,
+      [user_id, session_id, question]
     );
-    console.log("User message inserted:", userResult);
 
-    const [assistantResult] = await db.query(
-      `INSERT INTO chat_history (user_id, session_id, role, message, timestamp)
-      VALUES (?, ?, ?, ?, NOW())`,
-      [user_id, session_id, 'assistant', answer]
+    await db.query(
+      `INSERT INTO chat_history (user_id, session_id, role, message)
+       VALUES (?, ?, 'assistant', ?)`,
+      [user_id, session_id, answer]
     );
-    console.log("Assistant message inserted:", assistantResult);
 
     res.json({ answer });
+
   } catch (err) {
-    console.error("Error /ask:", err.message);
-    res.status(500).json({ error: "Server error (Node → FastAPI gagal)" });
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 });
+
 
 // ===============================
 // 3. Ambil semua session user

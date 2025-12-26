@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
+import "../styles/SampleTestPage.css";
 
 export default function UjiKandunganPage() {
   const [selectedMetal, setSelectedMetal] = useState(null);
@@ -10,24 +12,52 @@ export default function UjiKandunganPage() {
   const [result, setResult] = useState(null);
   const [message, setMessage] = useState("");
 
-  // fungsi buat simulasi analisis dummy (nanti bisa diganti model beneran)
-  const handleAnalyze = () => {
+  useEffect(() => {
+    if (!message) return;
+
+    const timer = setTimeout(() => {
+      setMessage("");
+    }, 3000); // ⏱️ 3 detik
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
+  const handleAnalyze = async () => {
     if (!imageFile || !sampleName || !sampleDate || !selectedMetal) {
       setMessage("⚠️ Lengkapi semua data dulu sebelum analisis.");
       return;
     }
 
-    const fakeKadar = (Math.random() * 2).toFixed(3);
-    const fakeRGB = "RGB(93,147,167)";
-    const fakeStatus = parseFloat(fakeKadar) < (selectedMetal === "Fe" ? 0.3 : 2.0) ? "Aman" : "Tidak Aman";
+    const formData = new FormData();
+    formData.append("sample_name", sampleName);
+    formData.append("user_id", 1); // nanti dari login
+    formData.append(
+      "test_date",
+      new Date(sampleDate).toISOString().slice(0, 10)
+    );
 
-    setResult({
-      rgb: fakeRGB,
-      kadar: fakeKadar,
-      status: fakeStatus,
-    });
+    formData.append("metal_type", selectedMetal);
+    formData.append("image", imageFile);
 
-    setMessage("");
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/samples/analyze",
+        formData
+      );
+
+      const { rgb, concentration, status } = res.data;
+
+      setResult({
+        rgb: `RGB(${rgb.join(", ")})`,
+        kadar: concentration,
+        status: status === "AMAN" ? "Aman" : "Tidak Aman",
+      });
+
+      setMessage("✅ Analisis berhasil dilakukan");
+    } catch (err) {
+      console.error("ANALYZE ERROR:", err);
+      setMessage("❌ Gagal melakukan analisis sample");
+    }
   };
 
   // fungsi buat upload hasil + gambar ke backend
@@ -45,14 +75,20 @@ export default function UjiKandunganPage() {
     formData.append("metal_type", selectedMetal);
     formData.append("concentration", result.kadar);
     formData.append("image", imageFile);
-
+    
     try {
-      const res = await axios.post("http://localhost:5000/samples/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setMessage("✅ " + res.data.message);
+      const res = await axios.post("http://localhost:5000/samples/save", 
+        formData 
+      );
+      setMessage(
+        res.data?.message
+          ? "✅ " + res.data.message
+          : "✅ Data sample berhasil disimpan"
+      );
     } catch (err) {
-      console.error(err);
+      console.error("UPLOAD ERROR:", err);
+      console.error("RESPONSE:", err.response?.data);
+      console.error("STATUS:", err.response?.status);
       setMessage("❌ Gagal menyimpan data sample ke server.");
     }
   };
@@ -215,24 +251,26 @@ export default function UjiKandunganPage() {
               </div>
             </div>
           )}
-
-          {message && (
-            <div className="col-10 text-center mt-2">
-              <p
-                className={`fw-semibold ${
-                  message.includes("✅")
-                    ? "text-success"
-                    : message.includes("⚠️")
-                    ? "text-warning"
-                    : "text-danger"
-                }`}
-              >
-                {message}
-              </p>
-            </div>
-          )}
         </div>
       )}
+      {message && (
+      <div
+        className="position-fixed bottom-0 start-50 translate-middle-x mb-4"
+        style={{ zIndex: 1050 }}
+      >
+        <div
+          className={`alert ${
+            message.includes("✅")
+              ? "alert-success"
+              : message.includes("⚠️")
+              ? "alert-warning"
+              : "alert-danger"
+          } shadow`}
+        >
+          {message}
+        </div>
+      </div>
+    )}
     </div>
   );
 }

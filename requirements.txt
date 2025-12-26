@@ -8,5 +8,6 @@ chromadb
 pymupdf
 fastapi
 uvicorn
+joblib
 python-dotenv
 google-generativeai

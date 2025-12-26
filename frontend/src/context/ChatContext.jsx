@@ -139,12 +139,7 @@ function filterUniqueSessions(list) {
       });
 
       const data = await res.json();
-
-      // setMessages((prev) => [
-      //   ...prev,
-      //   { role: "user", message: text },
-      //   { role: "assistant", message: data.answer },
-      // ]);
+      
       setMessages(prev => {
         const updated = [...prev];
         const lastIndex = updated.findIndex(m => m.temp);

@@ -1,7 +1,6 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import { db } from "../db.js";
-import { loginUser, registerUser } from "../controllers/userController.js";
 
 const router = express.Router();
 
@@ -12,7 +11,6 @@ router.post("/register", async (req, res) => {
   if (!username || !password)
     return res.status(400).json({ message: "Semua field wajib diisi" });
 
-  // cek apakah user sudah ada
   try {
     // cek apakah user sudah ada
     const [result] = await db.query("SELECT * FROM users WHERE username = ?", [username]);
@@ -22,8 +20,8 @@ router.post("/register", async (req, res) => {
 
     const hashed = await bcrypt.hash(password, 10);
     await db.query(
-      "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
-      [username, hashed, "mahasiswa"]
+      "INSERT INTO users (username, password) VALUES (?, ?)",
+      [username, hashed]
     );
 
     res.json({ message: "Registrasi berhasil" });

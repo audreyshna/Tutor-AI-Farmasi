@@ -73,6 +73,32 @@ router.get("/", (req, res) => {
   });
 });
 
+// === endpoint ambil materi berdasarkan user (dosen) ===
+router.get("/user/:user_id", async (req, res) => {
+  const { user_id } = req.params;
+
+  try {
+    const sql = `
+      SELECT 
+        material_id,
+        title,
+        file_path,
+        uploaded_At AS uploaded_at
+      FROM materials
+      WHERE user_id = ?
+      ORDER BY uploaded_At DESC
+    `;
+
+    const [rows] = await db.query(sql, [user_id]);
+    res.json(rows);
+
+  } catch (err) {
+    console.error("❌ Error ambil materi per user:", err);
+    res.status(500).json({ error: "Gagal mengambil materi dosen" });
+  }
+});
+
+
 router.delete("/:id", async (req, res) => {
   const materialId = req.params.id;
 

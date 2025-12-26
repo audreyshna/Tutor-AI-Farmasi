@@ -1,4 +1,5 @@
 # app.py
+import re
 import os
 import io
 import time
@@ -10,7 +11,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from PIL import Image
 import numpy as np
-from werkzeug.utils import secure_filename as werkzeug_secure_filename  # for consistent naming
 from sqlalchemy import create_engine, Column, Integer, String, Float, Date, MetaData
 from sqlalchemy.orm import declarative_base, sessionmaker
 from datetime import datetime
@@ -71,6 +71,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+def secure_filename(filename: str) -> str:
+    filename = filename.strip().replace(" ", "_")
+    filename = re.sub(r"[^A-Za-z0-9._-]", "", filename)
+    return filename
 
 # ---------------------------
 # MODEL LOADING
@@ -264,7 +269,7 @@ async def upload_sample(
     if not content:
         raise HTTPException(status_code=400, detail="File kosong")
 
-    filename = werkzeug_secure_filename(image.filename)
+    filename = secure_filename(image.filename)
     prefix = str(int(time.time()))
     safe_name = f"{prefix}_{filename}"
     save_path = os.path.join(UPLOAD_DIR, safe_name)

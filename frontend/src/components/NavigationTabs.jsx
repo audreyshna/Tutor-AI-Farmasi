@@ -4,7 +4,6 @@ export default function NavigationTabs({ activeTab, setActiveTab }) {
   const tabs = [
     { id: "chatbot", label: "Chatbot", icon: "bi-chat-dots" },
     { id: "uji", label: "Uji Kandungan", icon: "bi-flask" },
-    { id: "history", label: "History", icon: "bi-clock-history" },
   ];
 
   return (

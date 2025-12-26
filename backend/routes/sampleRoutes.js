@@ -2,6 +2,9 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import { db } from "../db.js";
+import fs from "fs";
+import FormData from "form-data";
+import axios from "axios";
 
 const router = express.Router();
 
@@ -18,28 +21,56 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// === Endpoint upload sample ===
-router.post("/upload", upload.single("image"), (req, res) => {
-  const { sample_name, user_id, test_date, metal_type, concentration } = req.body;
-
-  if (!req.file) return res.status(400).json({ error: "Gambar wajib diupload" });
-  if (!sample_name || !user_id || !test_date || !metal_type || !concentration)
-    return res.status(400).json({ error: "Data sample belum lengkap" });
-
-  const image_path = `/uploads/samples/${req.file.filename}`;
-
-  const sql = `
-    INSERT INTO samples (sample_name, user_id, test_date, metal_type, concentration, image_path)
-    VALUES (?, ?, ?, ?, ?, ?)
-  `;
-
-  db.query(sql, [sample_name, user_id, test_date, metal_type, concentration, image_path], (err) => {
-    if (err) {
-      console.error("❌ Gagal menyimpan sample:", err);
-      return res.status(500).json({ error: "Gagal menyimpan data sample" });
+// === Endpoint analyze sample ===
+router.post("/analyze", upload.single("image"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "Gambar wajib diupload" });
     }
-    res.json({ message: "Sample berhasil diupload", image_path });
-  });
+
+    const fastApiUrl = "http://localhost:5001/api/predict";
+    const formData = new FormData();
+    formData.append("file", fs.createReadStream(req.file.path));
+    formData.append("test_type", req.body.metal_type.toLowerCase());
+
+    const predictResp = await axios.post(fastApiUrl, formData, {
+      headers: formData.getHeaders(),
+    });
+
+    const { rgb, concentration_mg_per_L, status } = predictResp.data;
+
+    res.json({
+      rgb,
+      concentration: concentration_mg_per_L,
+      status,
+    });
+  } catch (err) {
+    console.error("ANALYZE ERROR:", err);
+    res.status(500).json({ error: "Gagal analisis sample" });
+  }
+});
+
+// === Endpoint save sample ===
+router.post("/save", upload.single("image"), async (req, res) => {
+  try {
+    const { sample_name, user_id, test_date, metal_type, concentration } = req.body;
+
+    if (!req.file) return res.status(400).json({ error: "Gambar wajib diupload" });
+    if (!sample_name || !user_id || !test_date || !metal_type)
+      return res.status(400).json({ error: "Data sample belum lengkap" });
+
+    const image_path = `/uploads/samples/${req.file.filename}`;
+
+    const sql = `INSERT INTO samples (sample_name, user_id, test_date, metal_type, concentration, image_path)
+                 VALUES (?, ?, ?, ?, ?, ?)`;
+
+    await db.query(sql, [sample_name, user_id, test_date, metal_type, concentration, image_path]);
+
+    res.json({ message: "Sample berhasil diupload" });
+  } catch (err) {
+    console.error("❌ Gagal menyimpan sample:", err);
+    res.status(500).json({ error: "Gagal menyimpan data sample" });
+  }
 });
 
 // === Endpoint ambil semua sample ===
