@@ -60,10 +60,21 @@ def rgb_to_hsv_scaled(r, g, b):
 
 def build_feature_vector(rgb, test_type: str):
     r, g, b = rgb
-    total = r + g + b or 1
 
-    if test_type.lower() in ("besi", "fe"):
-        # 9 fitur FE
+    if test_type.lower() in ("cu", "tembaga"):
+        h, s, v = rgb_to_hsv_scaled(r, g, b)
+
+        features = {
+            "h": h,
+            "s": s,
+            "v": v,
+            "mean_r": r,
+            "mean_g": g,
+            "mean_b": b
+        }
+
+    elif test_type.lower() in ("besi", "fe"):
+        total = r + g + b or 1
         features = {
             'mean_r': r,
             'mean_g': g,
@@ -75,23 +86,7 @@ def build_feature_vector(rgb, test_type: str):
             'r_b_ratio': r / (b + 1),
             'g_b_ratio': g / (b + 1)
         }
-    else:
-        # 12 fitur CU
-        h, s, v = rgb_to_hsv_scaled(r, g, b)
-        features = {
-            'r': r,
-            'g': g,
-            'b': b,
-            'r_norm': r / total,
-            'g_norm': g / total,
-            'b_norm': b / total,
-            'r_g_ratio': r / (g + 1),
-            'r_b_ratio': r / (b + 1),
-            'g_b_ratio': g / (b + 1),
-            'h': h,
-            's': s,
-            'v': v
-        }
+
     return features
 
 # ==========================

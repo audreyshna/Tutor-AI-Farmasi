@@ -65,7 +65,6 @@ export default function App() {
     <ChatProvider user={currentUser}>
       <div className="app-bg min-vh-100 d-flex flex-column">
         <Header />
-
         <NavigationTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
         <main className="container flex-grow-1 mb-5">
@@ -73,16 +72,14 @@ export default function App() {
           {activeTab === "uji" && <UjiKandunganPage />}
           {activeTab === "history" && <HistoryPage user={currentUser} />}
         </main>
-
-        <div className="text-center mb-3">
-          <button
-            onClick={handleLogout}
-            className="btn btn-outline-danger btn-sm"
-          >
-            Logout
-          </button>
-        </div>
-
+        {/* Logout hanya tampil pada halaman home (chatbot) */}
+        {activeTab === "chatbot" && (
+          <div className="text-center mb-3">
+            <button onClick={handleLogout} className="btn btn-outline-danger btn-sm">
+               Logout
+            </button>
+          </div>
+        )}
         <Footer />
       </div>
     </ChatProvider>

@@ -74,18 +74,32 @@ router.post("/save", upload.single("image"), async (req, res) => {
 });
 
 // === Endpoint ambil semua sample ===
-router.get("/", (req, res) => {
-  const sql = `
-    SELECT s.sample_id, s.sample_name, s.test_date, s.metal_type, s.concentration,
-           s.image_path, u.username AS tester
-    FROM samples s
-    JOIN users u ON s.user_id = u.user_id
-    ORDER BY s.test_date DESC
-  `;
-  db.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ error: "Gagal mengambil data sample" });
+router.get("/", async (req, res) => {
+  try {
+    const { user_id } = req.query;
+
+    let sql = `
+      SELECT s.sample_id, s.sample_name, s.test_date, s.metal_type, s.concentration,
+             s.image_path, u.username AS tester
+      FROM samples s
+      JOIN users u ON s.user_id = u.user_id
+    `;
+
+    const params = [];
+
+    if (user_id) {
+      sql += " WHERE s.user_id = ?";
+      params.push(user_id);
+    }
+
+    sql += " ORDER BY s.test_date DESC";
+
+    const [results] = await db.query(sql, params);
     res.json(results);
-  });
+  } catch (err) {
+    console.error("GET SAMPLES ERROR:", err);
+    res.status(500).json({ error: "Gagal mengambil data sample" });
+  }
 });
 
 export default router;

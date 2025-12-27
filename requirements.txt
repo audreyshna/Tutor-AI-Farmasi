@@ -11,3 +11,5 @@ uvicorn
 joblib
 python-dotenv
 google-generativeai
+scikit-learn
+pillow

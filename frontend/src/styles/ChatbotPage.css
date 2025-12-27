@@ -3,6 +3,9 @@
   height: 100vh;
   width: 100%;
   background: #f8fafc;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* Sidebar */
@@ -34,7 +37,6 @@
 .new-chat-btn:hover {
   background: #3b3ebe;
 }
-
 
 .history-title {
   margin-top: 15px;
@@ -110,8 +112,8 @@
   display: flex;
   flex-direction: column;
   background: #f9faff;
-  padding: 0; /* hapus padding agar input bisa menempel di bawah */
-  height: 100%; /* pastikan penuh */
+  padding: 0;
+  height: 100%;
 }
 
 .chatwindow-wrapper {
@@ -207,7 +209,6 @@
   cursor: pointer;
 }
 
-/* Pastikan list markdown di dalam bubble tampil rapi */
 .chat-bubble ul,
 .chat-bubble ol {
   padding-left: 20px; 
@@ -218,7 +219,6 @@
   margin-bottom: 4px;
 }
 
-/* Agar heading markdown terlihat elegan */
 .chat-bubble h1,
 .chat-bubble h2,
 .chat-bubble h3 {
@@ -227,7 +227,6 @@
   font-weight: 600;
 }
 
-/* Blockquote styling */
 .chat-bubble blockquote {
   border-left: 4px solid #007bff;
   padding-left: 10px;
@@ -236,7 +235,7 @@
 }
 
 .chat-msg.bot .chat-bubble {
-  background: #f1f5f9; /* abu-abu muda */
+  background: #f1f5f9;
   color: #111827;
   border-radius: 15px;
   padding: 10px 14px;
@@ -248,14 +247,14 @@
   display: flex;
   flex-direction: column;
   background: #f9faff;
-  padding: 0; /* hapus padding agar input bisa menempel di bawah */
-  height: 100%; /* pastikan penuh */
+  padding: 0; 
+  height: 100%;
 }
 
 .messages {
   flex: 1;
   overflow-y: auto;
-  padding: 20px; /* geser konten chat tapi tidak input */
+  padding: 20px; 
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -266,7 +265,7 @@
   gap: 10px;
   padding: 10px 20px;
   border-top: 1px solid #ddd;
-  flex-shrink: 0; /* jangan mengecil */
+  flex-shrink: 0;
 }
 
 .input-area input {
