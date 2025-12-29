@@ -55,7 +55,7 @@ async def api_ask(request: Request):
     question = data.get("question", "").strip()
     user_id = data.get("user_id")
     session_id = data.get("session_id")
-    history = data.get("history", [])  # ⬅️ INI KUNCI UTAMA
+    history = data.get("history", [])
 
     print("DEBUG history:")
     for h in history:
@@ -65,7 +65,6 @@ async def api_ask(request: Request):
     last_topic = get_last_topic(history)
 
     if len(question.split()) <= 3 and last_topic:
-        # contoh: "fungsinya apa", "itu bagaimana", dll
         question = f"{last_topic}. {question}"
 
     if not question:
@@ -74,9 +73,7 @@ async def api_ask(request: Request):
     if user_id is None:
         return JSONResponse({"error": "user_id wajib ada"}, status_code=400)
     
-    # ==================================================
     # Cek apakah pertanyaan meta (mengacu ke percakapan sebelumnya)
-    # ==================================================
     if question.lower() in META_QUESTIONS:
         last_real_q = get_last_real_question(history)
         if last_real_q:
@@ -85,16 +82,12 @@ async def api_ask(request: Request):
             return {"answer": "Sepertinya ini pertanyaan pertama Anda, jadi belum ada pertanyaan sebelumnya.", "sources": []}
 
 
-    # ==================================================
-    # 1️⃣ Tambahkan pertanyaan baru ke history
-    # ==================================================
+    # Tambahkan pertanyaan baru ke history
     history = history + [
         {"role": "user", "content": question}
     ]
 
-    # ==================================================
-    # 2️⃣ Similarity Search (RAG)
-    # ==================================================
+    # Similarity Search (RAG)
     similar_docs_with_scores = vectordb.similarity_search_with_score(
         question, k=TOP_K
     )
@@ -121,9 +114,7 @@ async def api_ask(request: Request):
             "sources": []
         }
 
-    # ==================================================
-    # 3️⃣ Ambil context chunks
-    # ==================================================
+    # Ambil context chunks
     context_chunks = []
     total_chars = 0
 
@@ -133,9 +124,7 @@ async def api_ask(request: Request):
         context_chunks.append(doc.page_content)
         total_chars += len(doc.page_content)
 
-    # ==================================================
-    # 4️⃣ Generate Answer (PAKAI HISTORY)
-    # ==================================================
+    # Generate Answer (Pakai history)
     answer = generate_answer_from_context(
         question=question,
         context_chunks=context_chunks,

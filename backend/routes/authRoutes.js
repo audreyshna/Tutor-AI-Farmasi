@@ -4,7 +4,7 @@ import { db } from "../db.js";
 
 const router = express.Router();
 
-// === REGISTER ===
+// Register
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
@@ -12,7 +12,6 @@ router.post("/register", async (req, res) => {
     return res.status(400).json({ message: "Semua field wajib diisi" });
 
   try {
-    // cek apakah user sudah ada
     const [result] = await db.query("SELECT * FROM users WHERE username = ?", [username]);
 
     if (result.length > 0)
@@ -32,8 +31,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// === LOGIN ===
-router.post("/login", async (req, res) => {  // <-- tambahkan async
+// Login
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password)

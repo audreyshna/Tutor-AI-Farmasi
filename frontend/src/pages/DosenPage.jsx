@@ -10,7 +10,7 @@ export default function DosenPage() {
   const [materiList, setMateriList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // popup states
+  // Popup states
   const [deleteId, setDeleteId] = useState(null);
   const [editMateri, setEditMateri] = useState(null);
   const [editTitle, setEditTitle] = useState("");
@@ -18,7 +18,7 @@ export default function DosenPage() {
   const rawUser = JSON.parse(localStorage.getItem("user") || "{}");
   const user = { ...rawUser, user_id: rawUser.user_id ?? rawUser.id };
 
-  // FETCH
+  // Fetch
   const fetchMaterials = async () => {
     try {
       setIsLoading(true);
@@ -39,7 +39,7 @@ export default function DosenPage() {
     if (user.user_id) fetchMaterials();
   }, [user.user_id]);
 
-  // UPLOAD
+  // Upload Materi
   const handleFileChange = (e) => {
     const selected = e.target.files[0];
     if (selected && selected.type !== "application/pdf") {

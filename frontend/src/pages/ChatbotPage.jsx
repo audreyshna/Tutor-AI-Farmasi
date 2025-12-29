@@ -100,7 +100,6 @@ export default function ChatbotPage({ user }) {
           </button>
         </div>
       </div>
-
     </div>
   );
 }

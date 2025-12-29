@@ -9,15 +9,11 @@ from services.vectorstore import vectordb
 from utils.gemini_client import generate_answer_from_context
 from routes import chatbot, predict
 
-# ==========================
 # CONFIG
-# ==========================
 MAX_CHARS = 15000
 TOP_K = 30
 
-# ==========================
 # APP INIT
-# ==========================
 app = FastAPI()
 
 app.add_middleware(
@@ -28,18 +24,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ==========================
 # INJECT DEPENDENCY
-# ==========================
 chatbot.vectordb = vectordb
 chatbot.MAX_CHARS = MAX_CHARS
 chatbot.TOP_K = TOP_K
 chatbot.generate_answer_from_context = generate_answer_from_context
 chatbot.chat_sessions = {}
 
-# ==========================
 # REGISTER ROUTER
-# ==========================
 app.include_router(chatbot.router)
 app.include_router(predict.router)
     

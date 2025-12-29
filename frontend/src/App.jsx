@@ -34,7 +34,6 @@ export default function App() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    // localStorage.removeItem("role");
     setCurrentUser(null);
   };
 

@@ -5,9 +5,7 @@ import axios from "axios";
 
 const router = express.Router();
 
-// ===============================
-// 1. Ambil history user
-// ===============================
+// Ambil history user
 router.get("/history/:user_id", async (req, res) => {
   const { user_id } = req.params;
 
@@ -26,14 +24,12 @@ router.get("/history/:user_id", async (req, res) => {
   }
 });
 
-// ===============================
-// 2. Kirim pertanyaan ke FastAPI
-// ===============================
+// Kirim pertanyaan ke FastAPI
 router.post("/ask", async (req, res) => {
   const { question, user_id, session_id } = req.body;
 
   try {
-    // 1️⃣ Ambil history dari DB
+    // Ambil history dari database
     const [rows] = await db.query(
       `SELECT role, message
        FROM chat_history
@@ -50,7 +46,7 @@ router.post("/ask", async (req, res) => {
 
     const newHistory = [...history, { role: 'user', content: question }];
 
-    // 2️⃣ Kirim ke FastAPI (DENGAN HISTORY)
+    // Kirim ke FastAPI
     const llm = await axios.post("http://localhost:5001/api/ask", {
       question,
       user_id,
@@ -60,7 +56,7 @@ router.post("/ask", async (req, res) => {
 
     const answer = llm.data.answer;
 
-    // 3️⃣ Simpan ke DB
+    // Simpan ke database
     await db.query(
       `INSERT INTO chat_history (user_id, session_id, role, message)
        VALUES (?, ?, 'user', ?)`,
@@ -81,10 +77,6 @@ router.post("/ask", async (req, res) => {
   }
 });
 
-
-// ===============================
-// 3. Ambil semua session user
-// ===============================
 // Ambil semua session user
 router.get("/sessions/:user_id", async (req, res) => {
   const { user_id } = req.params;
@@ -102,7 +94,7 @@ router.get("/sessions/:user_id", async (req, res) => {
       ORDER BY created_at ASC;`,
       [user_id]
     );
-    res.json({ sessions: rows }); // hanya kembalikan data
+    res.json({ sessions: rows });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Gagal ambil sessions" });
@@ -113,7 +105,7 @@ router.get("/sessions/:user_id", async (req, res) => {
 router.post("/new", async (req, res) => {
   const { user_id } = req.body;
   try {
-    const session_id = Date.now(); // bisa diganti UUID
+    const session_id = Date.now();
     await db.query(
       `INSERT INTO chat_history (user_id, session_id, role, message, timestamp)
        VALUES (?, ?, 'system', 'Session baru dibuat', NOW())`,
@@ -128,9 +120,7 @@ router.post("/new", async (req, res) => {
   }
 });
 
-// ===============================
-// 3. Ambil semua pesan dari session tertentu
-// ===============================
+// Ambil semua pesan dari session tertentu
 router.get("/messages/:session_id", async (req, res) => {
   const { session_id } = req.params;
 

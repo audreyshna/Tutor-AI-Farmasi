@@ -8,7 +8,7 @@ import axios from "axios";
 
 const router = express.Router();
 
-// === Konfigurasi penyimpanan file ===
+// Konfigurasi penyimpanan file
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/samples/");
@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// === Endpoint analyze sample ===
+// Endpoint analisis sample
 router.post("/analyze", upload.single("image"), async (req, res) => {
   try {
     if (!req.file) {
@@ -50,7 +50,7 @@ router.post("/analyze", upload.single("image"), async (req, res) => {
   }
 });
 
-// === Endpoint save sample ===
+// Endpoint save sample
 router.post("/save", upload.single("image"), async (req, res) => {
   try {
     const { sample_name, user_id, test_date, metal_type, concentration } = req.body;
@@ -73,7 +73,7 @@ router.post("/save", upload.single("image"), async (req, res) => {
   }
 });
 
-// === Endpoint ambil semua sample ===
+// Endpoint ambil semua sample
 router.get("/", async (req, res) => {
   try {
     const { user_id } = req.query;

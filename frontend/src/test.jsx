@@ -9,8 +9,6 @@ import ChatbotPage from "./pages/ChatbotPage.jsx";
 import UjiKandunganPage from "./pages/SampleTestPage.jsx";
 import HistoryPage from "./pages/HistoryPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
-
-// halaman dosen
 import DosenPage from "./pages/DosenPage.jsx";
 
 export default function App() {
@@ -53,7 +51,7 @@ export default function App() {
     );
   }
 
-  // Jika role = mahasiswa → tampil halaman dengan tabs (Chatbot, Uji, History)
+  // Jika role = mahasiswa tampil halaman dengan tabs (Chatbot, Uji, History)
   return (
     <div className="app-bg min-vh-100 d-flex flex-column">
       <Header />

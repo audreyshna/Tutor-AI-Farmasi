@@ -39,7 +39,7 @@ export default function SidebarChatHistory({ user, sidebarOpen, setSidebarOpen }
 
       <h6 className="history-title">Riwayat Chat</h6>
 
-      {/* LIST HISTORY SESSION */}
+      {/* List History */}
       <div className="history-list">
         {sessions.length === 0 ? (
           <p className="text-muted small">Belum ada percakapan</p>

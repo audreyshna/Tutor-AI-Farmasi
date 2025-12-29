@@ -11,7 +11,6 @@ const METAL_LIMITS = {
 };
 
 export default function UjiKandunganPage() {
-  // State management
   const [selectedMetal, setSelectedMetal] = useState(null);
   const [sampleName, setSampleName] = useState("");
   const [sampleDate, setSampleDate] = useState("");
@@ -20,14 +19,12 @@ export default function UjiKandunganPage() {
   const [result, setResult] = useState(null);
   const [message, setMessage] = useState("");
 
-  // Auto-clear message after 3 seconds
   useEffect(() => {
     if (!message) return;
     const timer = setTimeout(() => setMessage(""), 3000);
     return () => clearTimeout(timer);
   }, [message]);
 
-  // Helper function to get user from localStorage
   const getUser = () => {
     try {
       return JSON.parse(localStorage.getItem("user"));
@@ -36,7 +33,6 @@ export default function UjiKandunganPage() {
     }
   };
 
-  // Validate form inputs
   const validateInputs = () => {
     if (!imageFile || !sampleName || !sampleDate || !selectedMetal) {
       setMessage("⚠️ Lengkapi semua data dulu sebelum analisis.");
@@ -45,7 +41,6 @@ export default function UjiKandunganPage() {
     return true;
   };
 
-  // Handle sample analysis
   const handleAnalyze = async () => {
     if (!validateInputs()) return;
 
@@ -79,7 +74,7 @@ export default function UjiKandunganPage() {
     }
   };
 
-  // Handle upload results to backend
+  // Handle hasil analisis backend
   const handleUpload = async () => {
     if (!result) {
       setMessage("⚠️ Lakukan analisis dulu sebelum upload sample.");
@@ -192,7 +187,7 @@ export default function UjiKandunganPage() {
     </>
   );
 
-  // Render analysis form
+  // Render form analisis
   const renderAnalysisForm = () => (
     <div className="row g-4 mt-3">
       <div className={result ? "col-md-6" : "col-12"}>

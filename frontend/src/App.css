@@ -9,12 +9,8 @@ body {
   background: linear-gradient(180deg, #f6f7fc 0%, #e9ecff 100%);
 }
 
-/* Header gradient */
 .app-header {
-  /* background: linear-gradient(90deg, #2b2e83 0%, #4a4ddc 100%); */
   color: #4a4ddc;
-  /* border-radius: 0 0 25px 25px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); */
 }
 
 .tab-container {
@@ -34,7 +30,6 @@ body {
   border: 1px solid rgba(200, 200, 255, 0.2);
 }
 
-/* Chat bubble */
 .chat-bubble {
   border-radius: 20px;
   padding: 10px 15px;
@@ -94,9 +89,8 @@ body {
   margin: 0 auto;
   border-radius: 18px;
   transition: all 0.3s ease;
-  /* background: linear-gradient(135deg, #eef4ff, #e0e7ff); */
   border: 1px solid #d6e0ff;
-  text-align: left; /* Rata kiri */
+  text-align: left;
 }
 
 .red-gradient {
@@ -121,7 +115,6 @@ footer {
   color: #666;
 }
 
-/* --- Tabs --- */
 .tab-wrapper {
   border: 1px solid #e0e0e0;
   display: flex;
@@ -157,9 +150,8 @@ footer {
   color: #4a4ddc !important;
 }
 
-/* --- Font size tweaks --- */
 body {
-  font-size: 16px; /* default */
+  font-size: 16px;
   line-height: 1.7;
 }
 
@@ -175,7 +167,6 @@ h5, h6 {
   font-size: 15px;
 }
 
-/* --- General layout enhancement --- */
 .card {
   border-radius: 18px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
@@ -186,7 +177,6 @@ footer {
   font-size: 14px;
 }
 
-/* --- Chatbot Enhancement --- */
 .inner-chat-card {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 20px;

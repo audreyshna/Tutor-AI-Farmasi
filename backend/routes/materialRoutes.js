@@ -7,9 +7,7 @@ import { db } from "../db.js";
 
 const router = express.Router();
 
-/* ================================
-   CONFIG UPLOAD PDF
-================================ */
+/* Config Upload PDF */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/materials/");
@@ -22,9 +20,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-/* ================================
-   UPLOAD MATERI
-================================ */
+/* Upload Materi */
 router.post("/upload", upload.single("file"), async (req, res) => {
   const { title, user_id } = req.body;
 
@@ -67,9 +63,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
   }
 });
 
-/* ================================
-   GET ALL MATERI (ADMIN)
-================================ */
+/* Mengambil data materi (admin) */
 router.get("/", async (req, res) => {
   try {
     const [rows] = await db.query(`
@@ -90,9 +84,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-/* ================================
-   GET MATERI BY USER (DOSEN)
-================================ */
+/* Mengambil data materi (dosen) */
 router.get("/user/:user_id", async (req, res) => {
   const { user_id } = req.params;
 
@@ -114,9 +106,7 @@ router.get("/user/:user_id", async (req, res) => {
   }
 });
 
-/* ================================
-   UPDATE JUDUL MATERI (EDIT)
-================================ */
+/* Edit Materi */
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
@@ -142,9 +132,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-/* ================================
-   DELETE MATERI + FILE + CHROMA
-================================ */
+/* Delete materi + file + chroma */
 router.delete("/:id", async (req, res) => {
   const materialId = req.params.id;
 

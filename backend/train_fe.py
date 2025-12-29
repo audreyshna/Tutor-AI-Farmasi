@@ -12,7 +12,6 @@ OUTPUT_FOLDER = "models"
 # Buat folder model jika belum ada
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
-
 def preprocess_and_train(file_path, metal_type):
     print(f"\n=== Training model untuk logam {metal_type.upper()} (9 fitur RGB) ===")
 
@@ -36,18 +35,18 @@ def preprocess_and_train(file_path, metal_type):
         .astype(float)
     )
 
-    # --- Normalisasi RGB ---
+    # Normalisasi RGB
     total = df[['mean_r', 'mean_g', 'mean_b']].sum(axis=1)
     df['r_norm'] = df['mean_r'] / total
     df['g_norm'] = df['mean_g'] / total
     df['b_norm'] = df['mean_b'] / total
 
-    # --- Rasio warna ---
+    # Rasio warna
     df['r_g_ratio'] = df['mean_r'] / (df['mean_g'] + 1)
     df['r_b_ratio'] = df['mean_r'] / (df['mean_b'] + 1)
     df['g_b_ratio'] = df['mean_g'] / (df['mean_b'] + 1)
 
-    # --- Fitur dan target ---
+    # Fitur dan target
     feature_cols = [
         'mean_r', 'mean_g', 'mean_b',
         'r_norm', 'g_norm', 'b_norm',
@@ -79,7 +78,6 @@ def preprocess_and_train(file_path, metal_type):
     print(f"💾 Model disimpan ke: {save_path}")
 
     return save_path
-
 
 if __name__ == "__main__":
     preprocess_and_train(os.path.join(DATA_FOLDER, "Data Set - Fe.csv"), "Fe")

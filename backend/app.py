@@ -1,4 +1,3 @@
-# app.py
 import re
 import os
 import io

@@ -27,9 +27,7 @@ export default function HistoryPage() {
     fetchSamples();
   }, [user?.user_id]);
 
-  // ===============================
-  // DOWNLOAD CSV FUNCTION
-  // ===============================
+  // Download CSV
   const downloadCSV = () => {
     if (samples.length === 0) return;
 
@@ -83,7 +81,6 @@ export default function HistoryPage() {
           </p>
         ) : (
           <>
-            {/* Tombol Download CSV*/}
             <div className="d-flex justify-content-end mb-3">
               <button className="btn btn-outline-primary btn-sm" onClick={downloadCSV}>
                 Download CSV

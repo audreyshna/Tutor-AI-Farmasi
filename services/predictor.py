@@ -6,9 +6,7 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 
-# ---------------------------
-# CONFIG
-# ---------------------------
+# Config
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, ".."))
 MODEL_DIR = os.path.join(PROJECT_ROOT, "backend", "models")
@@ -23,9 +21,7 @@ CU_MODEL_PATH = os.environ.get(
     os.path.join(MODEL_DIR, "model_cu.pkl")
 )
 
-# ==========================
-# LOAD MODEL
-# ==========================
+# Load model
 def load_model(path):
     if not os.path.exists(path):
         return None
@@ -34,9 +30,7 @@ def load_model(path):
 fe_model = load_model(FE_MODEL_PATH)
 cu_model = load_model(CU_MODEL_PATH)
 
-# ==========================
-# IMAGE PROCESSING
-# ==========================
+# Image Processing
 def extract_rgb_bytes(file_bytes: bytes, sample_size: int = 50):
     img = Image.open(io.BytesIO(file_bytes)).convert("RGB")
     w, h = img.size
@@ -89,9 +83,7 @@ def build_feature_vector(rgb, test_type: str):
 
     return features
 
-# ==========================
-# PREDICT
-# ==========================
+# Predict
 def predict_with_model(model, features: dict):
     # Ubah ke DataFrame agar sesuai dengan saat training
     X = pd.DataFrame([features])

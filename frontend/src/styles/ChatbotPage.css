@@ -9,7 +9,6 @@
   position: relative;
 }
 
-/* Sidebar */
 .chatbot-sidebar {
   width: 260px;
   background: #ffffff;
@@ -18,31 +17,28 @@
   overflow-y: auto;
 }
 
-/* ================= SIDEBAR ================= */
 .chatbot-sidebar {
   width: 260px;
-  min-width: 0;                 /* 🔑 WAJIB */
+  min-width: 0;     
   background: #ffffff;
   border-right: 1px solid #e5e7eb;
   padding: 15px;
   padding: 60px 15px 15px;
 
-  overflow: hidden;             /* 🔑 WAJIB */
+  overflow: hidden; 
   transition: 
     width 0.3s ease,
     padding 0.3s ease,
     transform 0.3s ease;
 }
 
-/* SAAT SIDEBAR DI-HIDE */
 .chatbot-sidebar.hide {
   width: 0;
-  padding: 0;                   /* 🔥 INI PENTING */
+  padding: 0; 
   border-right: none;
   transform: translateX(-100%);
 }
 
-/* ================= TOGGLE SIDEBAR BUTTON ================= */
 .toggle-sidebar-global {
   position: absolute;
   top: 16px;
@@ -64,23 +60,20 @@
   transition: transform 0.3s ease;
 }
 
-/* Arrow panah versi CSS */
 .arrow {
   display: inline-block;
   width: 0; 
   height: 0; 
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
-  border-left: 8px solid #4a4ddc;  /* warna panah */
+  border-left: 8px solid #4a4ddc;
   transition: transform 0.3s ease;
 }
 
-/* rotate arrow ke kiri jika sidebar terbuka */
 .arrow.left {
   transform: rotate(180deg);
 }
 
-/* rotate arrow ke kanan jika sidebar tertutup */
 .arrow.right {
   transform: rotate(0deg);
 }
@@ -138,9 +131,9 @@
 }
 
 .history-item.active {
-  background: #e8f0fe;     /* warna highlight */
+  background: #e8f0fe;
   border-left: 4px solid #4a90e2;
-  padding-left: 8px;        /* biar teks tidak mepet border */
+  padding-left: 8px;
 }
 
 .history-item:hover {

@@ -16,9 +16,7 @@ from chromadb import PersistentClient
 import google.generativeai as genai
 
 
-# ============================
-# KONFIGURASI
-# ============================
+# Konfigurasi
 load_dotenv()
 MATERI_DIR = os.getenv("MATERI_DIR", "materi")  # folder PDF
 CHROMA_DIR = os.getenv("CHROMA_DIR", "./chroma_db")
@@ -32,10 +30,8 @@ GEMINI_BASE_URL = os.getenv(
 )
 EMBED_MODEL = "gemini-embedding-004"
 
-# ============================
 # Chunking generator yang aman
-# ============================
-MAX_TOKENS = 2000     # ganti 500 atau 600 jika PDF sangat besar
+MAX_TOKENS = 2000 
 CHUNK_OVERLAP = 300
 
 def approx_token_len(text: str) -> int:
@@ -43,7 +39,7 @@ def approx_token_len(text: str) -> int:
     return len(text.split())
 
 def chunk_text_generator(text: str, max_tokens=MAX_TOKENS, overlap=CHUNK_OVERLAP):
-    """Membuat potongan teks (chunk) sebagai generator agar hemat memori"""
+    """Membuat potongan teks (chunk) sebagai generator"""
     words = text.split()
     if not words:
         return
@@ -61,9 +57,7 @@ def chunk_text_generator(text: str, max_tokens=MAX_TOKENS, overlap=CHUNK_OVERLAP
         if start >= len(words):
             break
 
-# ============================
-# STEP 1: Extract PDF with unstructured
-# ============================
+# Extract PDF with unstructured
 def load_pdf_unstructured(path: str):
     print(f"➡️ Memproses PDF via unstructured: {path}")
 
@@ -110,10 +104,7 @@ def load_pdf_unstructured(path: str):
             print(f"=== ELEMENT {i+1} === (tidak ada teks)\n")
     return pairs
 
-
-# ============================
-# STEP 2: Gemini Embeddings (embed_content)
-# ============================
+# Gemini Embeddings (embed_content)
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def embed_with_gemini(texts: List[str], batch_size=100):
@@ -134,9 +125,7 @@ def embed_with_gemini(texts: List[str], batch_size=100):
 
     return all_embeddings
 
-# ============================
-# STEP 3: Save to ChromaDB
-# ============================
+# Save to ChromaDB
 def save_to_chroma(ids, docs, embeds, metas, batch_size=1000):
     client = PersistentClient(path=CHROMA_DIR)
 
@@ -164,11 +153,7 @@ def save_to_chroma(ids, docs, embeds, metas, batch_size=1000):
     
     print("💾 ChromaDB updated (persist otomatis dengan PersistentClient).")
 
-
-
-# ============================
 # MAIN: Build collection
-# ============================
 def build_collection():
     pdf_files = [
         f for f in os.listdir(MATERI_DIR)
@@ -201,7 +186,6 @@ def build_collection():
     save_to_chroma(ids, all_texts, embeddings, all_metas)
 
     print("✅ Selesai membangun database!")
-
 
 if __name__ == "__main__":
     build_collection()

@@ -114,7 +114,7 @@ function Alert({ children }) {
   return <div style={styles.alert}>{children}</div>;
 }
 
-// Static Sidebar Component (tidak akan re-render)
+// Sidebar Component
 function Sidebar() {
   return (
     <div style={{
@@ -163,7 +163,7 @@ function Sidebar() {
   );
 }
 
-// Login Form Content
+// Form Login
 function LoginForm({ onLogin, onSwitchToRegister }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -289,7 +289,7 @@ function LoginForm({ onLogin, onSwitchToRegister }) {
   );
 }
 
-// Register Form Content
+// Form Register
 function RegisterForm({ onRegister, onSwitchToLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -457,7 +457,7 @@ export default function AuthPage({ onLoginSuccess }) {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex' }}>
-      {/* Static Sidebar - Tidak akan re-render */}
+      {/* Static Sidebar */}
       <Sidebar />
 
       {/* Right Side - Content yang berubah */}
@@ -478,7 +478,7 @@ export default function AuthPage({ onLoginSuccess }) {
             </div>
           </div>
 
-          {/* Form Content - Conditional Rendering */}
+          {/* Form Content */}
           {isRegistering ? (
             <RegisterForm 
               onRegister={() => setIsRegistering(false)} 

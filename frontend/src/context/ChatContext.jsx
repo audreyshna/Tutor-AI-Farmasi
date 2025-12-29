@@ -1,4 +1,3 @@
-// ChatContext.jsx
 import { createContext, useEffect, useState } from "react";
 
 export const ChatContext = createContext();
@@ -19,7 +18,7 @@ function filterUniqueSessions(list) {
   return Array.from(map.values());
 }
 
-  // ========== Load session saat user login ==========
+  // Load session saat user login
   useEffect(() => {
     if (!user?.user_id) return;
 
@@ -49,7 +48,7 @@ function filterUniqueSessions(list) {
     initChat();
   }, [user]);
 
-  // ========== Load messages ==========
+  // Load messages
   async function loadMessages(sessionId) {
     if (!sessionId) return;
 
@@ -62,14 +61,14 @@ function filterUniqueSessions(list) {
     }
   }
 
-  // ========== Select session ==========
+  // Select session
   function selectSession(sessionId) {
-    if (sessionId === activeSessionId) return; // hindari reload duplikat
+    if (sessionId === activeSessionId) return;
     setActiveSessionId(sessionId);
     loadMessages(sessionId);
   }
 
-  // ========== New Chat (fix duplikasi session) ==========
+  // New Chat (fix duplikasi session)
   async function newChat() {
     try {
       const res = await fetch(`http://localhost:5000/api/chat/new`, {
@@ -82,7 +81,7 @@ function filterUniqueSessions(list) {
       const newSession = data.session;
       newSession.created_at = new Date().toISOString();
 
-      // Tambahkan session baru tanpa fetch ulang list
+      // Tambah session baru tanpa fetch ulang list
       setSessions((prev) => {
         // hindari duplikat berdasarkan session_id
         const merged = [newSession, ...prev];
@@ -100,7 +99,7 @@ function filterUniqueSessions(list) {
     }
   }
 
-  // ========== Send Message ==========
+  // Send Message
   async function sendMessage(text, sessionId) {
     const sid = sessionId || activeSessionId;
     if (!sid) return;

@@ -9,10 +9,7 @@ DATASET_CU = "dataset/TEMBAGA.csv"
 MODEL_FE = "models/model_fe.pkl"
 MODEL_CU = "models/model_cu.pkl"
 
-
-# ======================================================
-# EVALUASI FE (9 FITUR RGB)
-# ======================================================
+# Evaluasi Fe (9 Fitur RGB)
 def evaluate_model_fe():
     print("\n🔍 Evaluasi model FE (RGB)")
 
@@ -48,10 +45,7 @@ def evaluate_model_fe():
     print(f"✅ MAE  : {mean_absolute_error(y, y_pred):.4f}")
     print(f"✅ R²   : {r2_score(y, y_pred):.4f}")
 
-
-# ======================================================
-# EVALUASI CU (FITUR MENYESUAIKAN MODEL)
-# ======================================================
+# Evaluasi Cu
 def evaluate_model_cu():
     print("\n🔍 Evaluasi model CU (FITUR MENYESUAIKAN MODEL TRAINING)")
 
@@ -61,13 +55,13 @@ def evaluate_model_cu():
     target_col = [c for c in df.columns if "kons" in c or "adar" in c][0]
     df[target_col] = df[target_col].astype(str).str.replace(",", ".", regex=False).astype(float)
 
-    # LOAD MODEL
+    # Load model
     model = joblib.load(MODEL_CU)
 
-    # FITUR YANG DIPAKAI MODEL SAAT TRAINING
+    # Fitur yang dipakai model saat training
     used_features = model.feature_names_in_
 
-    # FILTER DATASET SESUAI FITUR MODEL
+    # Filter dataset sesuai fitur model
     df_eval = df[list(used_features) + [target_col]].dropna()
 
     X = df_eval[list(used_features)]
