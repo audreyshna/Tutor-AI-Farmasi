@@ -1,9 +1,8 @@
-//SidebarChatHistory.jsx
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { ChatContext } from "../context/ChatContext";
 import "../styles/ChatbotPage.css";
 
-export default function SidebarChatHistory({ user }) {
+export default function SidebarChatHistory({ user, sidebarOpen, setSidebarOpen }) {
   const {
     sessions,
     activeSessionId,

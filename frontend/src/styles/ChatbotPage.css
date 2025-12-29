@@ -6,6 +6,7 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
 /* Sidebar */
@@ -15,6 +16,81 @@
   border-right: 1px solid #e5e7eb;
   padding: 15px;
   overflow-y: auto;
+}
+
+/* ================= SIDEBAR ================= */
+.chatbot-sidebar {
+  width: 260px;
+  min-width: 0;                 /* 🔑 WAJIB */
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 15px;
+  padding: 60px 15px 15px;
+
+  overflow: hidden;             /* 🔑 WAJIB */
+  transition: 
+    width 0.3s ease,
+    padding 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* SAAT SIDEBAR DI-HIDE */
+.chatbot-sidebar.hide {
+  width: 0;
+  padding: 0;                   /* 🔥 INI PENTING */
+  border-right: none;
+  transform: translateX(-100%);
+}
+
+/* ================= TOGGLE SIDEBAR BUTTON ================= */
+.toggle-sidebar-global {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  z-index: 300;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* Arrow panah versi CSS */
+.arrow {
+  display: inline-block;
+  width: 0; 
+  height: 0; 
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 8px solid #4a4ddc;  /* warna panah */
+  transition: transform 0.3s ease;
+}
+
+/* rotate arrow ke kiri jika sidebar terbuka */
+.arrow.left {
+  transform: rotate(180deg);
+}
+
+/* rotate arrow ke kanan jika sidebar tertutup */
+.arrow.right {
+  transform: rotate(0deg);
+}
+
+.toggle-sidebar-global:hover {
+  background: #f1f5f9;
+}
+
+.chatbot-window.full {
+  width: 100%;
 }
 
 .sidebar-wrapper {

@@ -1,4 +1,3 @@
-//ChatbotPage.jsx
 import React, { useState, useRef, useEffect, useContext } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -11,6 +10,7 @@ export default function ChatbotPage({ user }) {
 
   const [input, setInput] = useState("");
   const chatEndRef = useRef(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   // Scroll otomatis saat messages berubah
   useEffect(() => {
@@ -39,12 +39,25 @@ export default function ChatbotPage({ user }) {
     <div className="chatbot-container">
 
       {/* Sidebar */}
-      <div className="chatbot-sidebar">
-        <SidebarChatHistory user={user} />
+      <div className={`chatbot-sidebar ${sidebarOpen ? "" : "hide"}`}>
+        <SidebarChatHistory 
+        user={user} 
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        />
       </div>
 
+      {/* TOGGLE SIDEBAR (GLOBAL) */}
+      <button
+        className="toggle-sidebar-global"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-label="Toggle sidebar"
+      >
+        <span className={`arrow ${sidebarOpen ? 'left' : 'right'}`}></span>
+      </button>
+
       {/* Chat Window */}
-      <div className="chatbot-window">
+      <div className={`chatbot-window ${sidebarOpen ? "" : "full"}`}>
 
         <div className="messages">
           {messagesToDisplay.map((msg, index) => (
@@ -91,4 +104,3 @@ export default function ChatbotPage({ user }) {
     </div>
   );
 }
-
