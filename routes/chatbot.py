@@ -114,6 +114,8 @@ async def api_ask(request: Request):
             "sources": []
         }
 
+    similar_docs_with_scores.sort(key=lambda x: x[1])
+
     # Ambil context chunks
     context_chunks = []
     total_chars = 0
